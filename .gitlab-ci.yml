@@ -1,0 +1,32 @@
+variables:
+  REPOS_FILE: repos.yaml
+  VCS_ARGS: --recursive
+
+include:
+- project: 'polymathrobotics/ci/ci_templates'
+  ref: main
+  file: '/ros/ros2_package.impl.yml'
+- project: 'polymathrobotics/ci/ci_templates'
+  ref: main
+  file: '/common/rules.yml'
+- project: 'polymathrobotics/ci/ci_templates'
+  ref: main
+  file: '/common/stages.yml'
+
+build_and_test_rmd_x8_90_driver:
+  image: registry.gitlab.com/polymathrobotics/polymath_core/amd64:humble
+  variables:
+    PACKAGE_NAME: rmd_x8_90_driver
+    PACKAGE_DIRECTORY: $PACKAGE_NAME
+  extends: .ros2_build_and_test
+
+eval_rmd_x8_90_driver:
+  extends: .ros2_evaluate
+  variables:
+    PACKAGE_NAME: rmd_x8_90_driver
+  needs:
+    - job: build_and_test_rmd_x8_90_driver
+      artifacts: true
+  artifacts:
+      reports:
+        junit: $ARTIFACTS_PATH/test_results/test_results/$PACKAGE_NAME/*.xml

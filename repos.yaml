@@ -1,0 +1,9 @@
+repositories:
+  rmd_x8_90_driver:
+    type: git
+    url: git@gitlab.com:polymathrobotics/rmd_x8_90_driver.git
+    version: main
+  socketcan_adapter:
+    type: git
+    url: git@github.com:polymathrobotics/socketcan_adapter.git
+    version: main
